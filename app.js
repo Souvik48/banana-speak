@@ -18,11 +18,33 @@ var outputDiv = document.querySelector("#output");
 
 //if you want to read value then use id.value
 
-btnTranslate.addEventListener("click",function clickEventHandler(){
+//var serverURL = "https://lessonfourapi.tanaypratap.repl.co/translate/yoda.json"
+var serverURL = "https://api.funtranslations.com/translate/minion.json"
+
+function getTranslationURL(text){
+    return serverURL + "?"+"text="+text
+}
+
+
+function errorHandler(error){
+    console.log("Error Occured",error);
+    alert("Something wrong with server.Try again after some time!")
+}
+
+btnTranslate.addEventListener("click",clickEventHandler) 
+function clickEventHandler(){
     //console.log("Clicked!");
    //    console.log("input",txtInput.value)
-   outputDiv.innerText = "sdsaddaa " + txtInput.value 
+   //outputDiv.innerText = "sdsaddaa " + txtInput.value 
 
-})
+   var inputText = txtInput.value;
+
+   fetch(getTranslationURL(inputText)).
+   then(response => response.json()).
+   then(json => {
+       var translatedText = json.contents.translated;
+       outputDiv.innerText = translatedText;
+}).catch(errorHandler)
+};
 
 
